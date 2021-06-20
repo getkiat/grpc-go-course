@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package greet;
+
+//Impact code-generation
+option go_package="github.com/getkiat/grpc-go-course/greet/greetpb";
+
+service GreetService{}
