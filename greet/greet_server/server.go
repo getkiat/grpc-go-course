@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net"
@@ -19,8 +20,22 @@ type server struct {
 	pb.UnimplementedGreetServiceServer
 }
 
+// SayHello implements helloworld.GreeterServer
+func (s *server) Greet(ctx context.Context, in *pb.GreetRequest) (*pb.GreetResponse, error) {
+	fmt.Printf("Greet fn invoked with %v",in)
+	firstName := in.GetGreeting().GetFirstName()
+	lastName := in.GetGreeting().GetLastName()
+	result := "Hello " + firstName + lastName
+	res := &pb.GreetResponse{
+		Result: result,
+	}
+	return res, nil
+	// return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+}
+
+
 func main() {
-	fmt.Println("Hello world")
+	fmt.Println("Hello world, I'm server")
 
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
